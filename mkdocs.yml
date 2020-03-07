@@ -1,0 +1,25 @@
+site_name: Prerender Python Starlette
+site_description: Starlette middleware for Prerender
+
+theme:
+  name: material
+  palette:
+    primary: yellow
+    accent: amber
+
+repo_name: BeeMyDesk/prerender-python-starlette
+repo_url: https://github.com/BeeMyDesk/prerender-python-starlette
+edit_uri: ""
+
+markdown_extensions:
+  - markdown_include.include:
+      base_path: docs
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.tasklist
+
+nav:
+  - About: index.md
