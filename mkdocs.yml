@@ -4,8 +4,8 @@ site_description: Starlette middleware for Prerender
 theme:
   name: material
   palette:
-    primary: yellow
-    accent: amber
+    primary: amber
+    accent: orange
 
 repo_name: BeeMyDesk/prerender-python-starlette
 repo_url: https://github.com/BeeMyDesk/prerender-python-starlette

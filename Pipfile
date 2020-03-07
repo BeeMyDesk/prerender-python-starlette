@@ -20,8 +20,11 @@ markdown-include = "*"
 pygments = "*"
 pymdown-extensions = "*"
 bumpversion = "*"
+starlette = "*"
+respx = "*"
 
 [packages]
+httpx = ">=0.11,<0.12"
 
 [requires]
 python_version = "3.7"

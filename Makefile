@@ -10,7 +10,7 @@ format: isort-src isort-docs
 	$(PIPENV_RUN) black .
 
 test:
-	$(PIPENV_RUN) pytest --cov=prerender_python_starlette/
+	$(PIPENV_RUN) pytest --cov=prerender_python_starlette/ --cov-report=term-missing
 
 docs-serve:
 	$(PIPENV_RUN) mkdocs serve
