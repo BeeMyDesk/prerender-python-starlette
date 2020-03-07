@@ -116,6 +116,44 @@ def has_matching_pattern(patterns: List[re.Pattern], string: str) -> bool:
 
 
 class PrerenderMiddleware(BaseHTTPMiddleware):
+    """
+    Middleware intercepting requests made by crawler \
+    bots to prerender them against a Prerender server.
+
+    :param app: ASGI app.
+
+    :param prerender_service_url: URL of Prerender server.
+    Defaults to PRERENDER_SERVICE_URL environment variable.
+
+    :param prerender_service_username: HTTP basic auth username of Prerender server.
+    Defaults to PRERENDER_SERVICE_USERNAME environment variable.
+
+    :param prerender_service_password: HTTP basic auth password of Prerender server.
+    Defaults to PRERENDER_SERVICE_PASSWORD environment variable.
+
+    :param crawler_user_agents: List of crawler user agents to intercept.
+    Defaults to DEFAULT_CRAWLER_USER_AGENTS list.
+
+    :param extensions_to_ignore: List of file extensions to ignore.
+    Defaults to DEFAULT_EXTENSIONS_TO_IGNORE list.
+
+    :param whitelist: List of path patterns to whitelist.
+    Path not matching a pattern in the list won't be prerendered.
+    Defaults to None.
+
+    :param blacklist: List of path patterns to blacklist.
+    Path matching a pattern in the list won't be prerendered.
+    Defaults to None.
+
+    :param before_render: Async function called before the prerendering.
+    If it returns an `HTMLResponse`, it will be considered as cache
+    and will bypass the call to the Prerender server.
+    Defaults to None.
+
+    :param after_render: Async function called after the prerendering.
+    Defaults to None.
+    """
+
     prerender_service_url: str
     prerender_service_username: Optional[str]
     prerender_service_password: Optional[str]
