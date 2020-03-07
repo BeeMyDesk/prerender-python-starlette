@@ -29,7 +29,7 @@
       
         
         
-        <meta name="theme-color" content="#ffee58">
+        <meta name="theme-color" content="#ffc107">
       
     
     
@@ -51,7 +51,7 @@
   
     
     
-    <body dir="ltr" data-md-color-primary="yellow" data-md-color-accent="amber">
+    <body dir="ltr" data-md-color-primary="amber" data-md-color-accent="orange">
   
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -214,6 +214,47 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-example" class="md-nav__link">
+    Cache example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     Development
   </a>
@@ -287,6 +328,47 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-example" class="md-nav__link">
+    Cache example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     Development
   </a>
@@ -356,6 +438,75 @@
 <p><strong>Documentation</strong>: <a href="https://BeeMyDesk.github.io/prerender-python-starlette/" target="_blank">https://BeeMyDesk.github.io/prerender-python-starlette/</a></p>
 <p><strong>Source Code</strong>: <a href="https://github.com/BeeMyDesk/prerender-python-starlette" target="_blank">https://github.com/BeeMyDesk/prerender-python-starlette</a></p>
 <hr />
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Google, Facebook, Twitter, and Bing are constantly trying to view your website... but Google is the only crawler that executes a meaningful amount of JavaScript and Google even admits that they can execute JavaScript weeks after actually crawling. Prerender allows you to serve the full HTML of your website back to Google and other crawlers so that they don't have to execute any JavaScript. <a href="https://developers.google.com/search/docs/guides/dynamic-rendering">Google recommends using Prerender.io</a> to prevent indexation issues on sites with large amounts of JavaScript.</p>
+<p>Prerender is perfect for Angular SEO, React SEO, Vue SEO, and any other JavaScript framework.</p>
+<p>This middleware intercepts requests to your Node.js website from crawlers, and then makes a call to the (external) Prerender Service to get the static HTML instead of the JavaScript for that page. That HTML is then returned to the crawler.</p>
+</blockquote>
+<p><em>README of <a href="https://github.com/prerender/prerender_rails">prerender_rails</a></em></p>
+<p>This library is a Python implementation of a Prerender middleware for <a href="https://www.starlette.io">Starlette</a>. It should work flawlessly with <a href="https://fastapi.tiangolo.com/">FastAPI</a> and, probably, with any ASGI framework.</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>pip install prerender-python-starlette
+</code></pre></div>
+
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">starlette.applications</span> <span class="kn">import</span> <span class="n">Starlette</span>
+<span class="kn">from</span> <span class="nn">starlette.middleware</span> <span class="kn">import</span> <span class="n">Middleware</span>
+<span class="kn">from</span> <span class="nn">prerender_python_starlette</span> <span class="kn">import</span> <span class="n">PrerenderMiddleware</span>
+
+<span class="n">routes</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="n">middleware</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="n">Middleware</span><span class="p">(</span><span class="n">PrerenderMiddleware</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Starlette</span><span class="p">(</span><span class="n">routes</span><span class="o">=</span><span class="n">routes</span><span class="p">,</span> <span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>prerender_service_url</code>: URL of Prerender server. Defaults to <code>PRERENDER_SERVICE_URL</code> environment variable.</li>
+<li><code>prerender_service_username</code>: HTTP basic auth username of Prerender server. Defaults to <code>PRERENDER_SERVICE_USERNAME</code> environment variable.</li>
+<li><code>prerender_service_password</code>: HTTP basic auth password of Prerender server. Defaults to <code>PRERENDER_SERVICE_PASSWORD</code> environment variable.</li>
+<li><code>crawler_user_agents</code>: List of crawler user agents to intercept. Defaults to <code>DEFAULT_CRAWLER_USER_AGENTS</code> list.</li>
+<li><code>extensions_to_ignore</code>: List of file extensions to ignore. Defaults to <code>DEFAULT_EXTENSIONS_TO_IGNORE</code> list.</li>
+<li><code>whitelist</code>: List of path patterns to whitelist. Path not matching a pattern in the list won't be prerendered. Defaults to <code>None</code>.</li>
+<li><code>blacklist</code>: List of path patterns to blacklist. Path matching a pattern in the list won't be prerendered. Defaults to <code>None</code>.</li>
+<li><code>before_render</code>: Async function called before the prerendering. If it returns an <code>HTMLResponse</code>, it will be considered as cache and will bypass the call to the Prerender server. Defaults to <code>None</code>.</li>
+<li><code>after_render</code>: Async function called after the prerendering. Defaults to <code>None</code>.</li>
+</ul>
+<h3 id="cache-example">Cache example<a class="headerlink" href="#cache-example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">starlette.applications</span> <span class="kn">import</span> <span class="n">Starlette</span>
+<span class="kn">from</span> <span class="nn">starlette.middleware</span> <span class="kn">import</span> <span class="n">Middleware</span>
+<span class="kn">from</span> <span class="nn">prerender_python_starlette</span> <span class="kn">import</span> <span class="n">PrerenderMiddleware</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">before_render</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HTMLResponse</span><span class="p">]:</span>
+    <span class="n">cached_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prerender:</span><span class="si">{request.url.path}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cached_response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HTMLResponse</span><span class="p">(</span><span class="n">cached_response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">after_render</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">HTMLResponse</span><span class="p">,</span> <span class="n">cached</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cached</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;prerender:</span><span class="si">{request.url.path}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">charset</span><span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="n">routes</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="n">middleware</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="n">Middleware</span><span class="p">(</span><span class="n">PrerenderMiddleware</span><span class="p">,</span> <span class="n">before_render</span><span class="o">=</span><span class="n">before_render</span><span class="p">,</span> <span class="n">after_render</span><span class="o">=</span><span class="n">after_render</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Starlette</span><span class="p">(</span><span class="n">routes</span><span class="o">=</span><span class="n">routes</span><span class="p">,</span> <span class="n">middleware</span><span class="o">=</span><span class="n">middleware</span><span class="p">)</span>
+</code></pre></div>
+
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <h3 id="setup-environement">Setup environement<a class="headerlink" href="#setup-environement" title="Permanent link">&para;</a></h3>
 <p>You should have <a href="https://pipenv.readthedocs.io/en/latest/">Pipenv</a> installed. Then, you can install the dependencies with:</p>
