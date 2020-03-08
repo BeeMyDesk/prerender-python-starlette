@@ -1,5 +1,6 @@
 import asyncio
 import pytest
+from base64 import b64encode
 from typing import Awaitable, Callable, List, Optional
 
 import respx
@@ -20,6 +21,8 @@ def get_test_client():
         blacklist: List[str] = None,
         before_render: Callable[[Request], Awaitable[Optional[HTMLResponse]]] = None,
         after_render: Callable[[Request, HTMLResponse], Awaitable[None]] = None,
+        username: str = None,
+        password: str = None,
     ) -> TestClient:
         def main_get(r):
             return HTMLResponse("<html><body>RAW</body></html>")
@@ -56,6 +59,8 @@ def get_test_client():
             Middleware(
                 PrerenderMiddleware,
                 prerender_service_url="http://prerender.bar.com",
+                prerender_service_username=username,
+                prerender_service_password=password,
                 whitelist=whitelist,
                 blacklist=blacklist,
                 before_render=before_render,
@@ -127,7 +132,8 @@ def test_prerender(
     path,
     prerendered,
 ):
-    request = respx.get(
+    request = respx.request(
+        method,
         f"http://prerender.bar.com/http://testserver{path}",
         content="<html><body>PRERENDERED</body></html>",
     )
@@ -170,6 +176,21 @@ def test_before_render(mocker, get_test_client):
     assert get_prerendered_response_mock.called is False
     assert response.text == "<html><body>CACHED</body></html>"
     assert response.headers.get("content-type") == "text/html; charset=utf-8"
+
+
+@respx.mock
+def test_basic_auth(get_test_client):
+    request = respx.get(
+        f"http://prerender.bar.com/http://testserver/",
+        content="<html><body>PRERENDERED</body></html>",
+    )
+
+    test_client = get_test_client(username="foo", password="bar")
+    test_client.request("GET", "/", headers={"user-agent": "googlebot"})
+
+    assert request.called
+    encoded_auth = b64encode(b"foo:bar").decode("latin-1")
+    assert request.calls[0][0].headers["Authorization"] == f"Basic {encoded_auth}"
 
 
 @respx.mock

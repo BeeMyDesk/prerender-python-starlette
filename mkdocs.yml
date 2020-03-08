@@ -22,4 +22,4 @@ markdown_extensions:
   - pymdownx.tasklist
 
 nav:
-  - About: index.md
+  - README: index.md
