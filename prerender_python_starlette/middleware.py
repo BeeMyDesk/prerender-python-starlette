@@ -89,6 +89,7 @@ PRERENDER_SERVICE_URL = os.environ.get(
 )
 PRERENDER_SERVICE_USERNAME = os.environ.get("PRERENDER_SERVICE_USERNAME")
 PRERENDER_SERVICE_PASSWORD = os.environ.get("PRERENDER_SERVICE_PASSWORD")
+PRERENDER_SERVICE_TOKEN = os.environ.get("PRERENDER_SERVICE_TOKEN")
 
 
 def is_matching_user_agent(user_agent: str, crawler_user_agents: List[str]) -> bool:
@@ -131,6 +132,9 @@ class PrerenderMiddleware(BaseHTTPMiddleware):
     :param prerender_service_password: HTTP basic auth password of Prerender server.
     Defaults to PRERENDER_SERVICE_PASSWORD environment variable.
 
+    :param prerender_service_token: Token set in X-Prerender-Token header.
+    Defaults to PRERENDER_SERVICE_TOKEN environment variable.
+
     :param crawler_user_agents: List of crawler user agents to intercept.
     Defaults to DEFAULT_CRAWLER_USER_AGENTS list.
 
@@ -157,6 +161,7 @@ class PrerenderMiddleware(BaseHTTPMiddleware):
     prerender_service_url: str
     prerender_service_username: Optional[str]
     prerender_service_password: Optional[str]
+    prerender_service_token: Optional[str]
     crawler_user_agents: List[str]
     extensions_to_ignore: List[str]
     whitelist: Optional[List[re.Pattern]] = None
@@ -174,6 +179,7 @@ class PrerenderMiddleware(BaseHTTPMiddleware):
         prerender_service_url: str = PRERENDER_SERVICE_URL,
         prerender_service_username: Optional[str] = PRERENDER_SERVICE_USERNAME,
         prerender_service_password: Optional[str] = PRERENDER_SERVICE_PASSWORD,
+        prerender_service_token: Optional[str] = PRERENDER_SERVICE_TOKEN,
         crawler_user_agents: List[str] = None,
         extensions_to_ignore: List[str] = None,
         whitelist: List[str] = None,
@@ -185,6 +191,7 @@ class PrerenderMiddleware(BaseHTTPMiddleware):
         self.prerender_service_url = prerender_service_url
         self.prerender_service_username = prerender_service_username
         self.prerender_service_password = prerender_service_password
+        self.prerender_service_token = prerender_service_token
         self.crawler_user_agents = (
             crawler_user_agents if crawler_user_agents else DEFAULT_CRAWLER_USER_AGENTS
         )
@@ -262,8 +269,12 @@ class PrerenderMiddleware(BaseHTTPMiddleware):
         if self.prerender_service_username and self.prerender_service_password:
             auth = (self.prerender_service_username, self.prerender_service_password)
 
+        headers = {}
+        if self.prerender_service_token:
+            headers["x-prerender-token"] = self.prerender_service_token
+
         async with httpx.AsyncClient(
-            base_url=self.prerender_service_url, timeout=30, auth=auth
+            base_url=self.prerender_service_url, timeout=30, auth=auth, headers=headers
         ) as client:
             response = await client.get(f"/{request.url}")
         return HTMLResponse(response.text)

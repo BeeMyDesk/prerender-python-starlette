@@ -56,6 +56,7 @@ app = Starlette(routes=routes, middleware=middleware)
 * `prerender_service_url`: URL of Prerender server. Defaults to `PRERENDER_SERVICE_URL` environment variable.
 * `prerender_service_username`: HTTP basic auth username of Prerender server. Defaults to `PRERENDER_SERVICE_USERNAME` environment variable.
 * `prerender_service_password`: HTTP basic auth password of Prerender server. Defaults to `PRERENDER_SERVICE_PASSWORD` environment variable.
+* `prerender_service_token`: Token set in `X-Prerender-Token` header. Defaults to `PRERENDER_SERVICE_TOKEN` environment variable.
 * `crawler_user_agents`: List of crawler user agents to intercept. Defaults to `DEFAULT_CRAWLER_USER_AGENTS` list.
 * `extensions_to_ignore`: List of file extensions to ignore. Defaults to `DEFAULT_EXTENSIONS_TO_IGNORE` list.
 * `whitelist`: List of path patterns to whitelist. Path not matching a pattern in the list won't be prerendered. Defaults to `None`.

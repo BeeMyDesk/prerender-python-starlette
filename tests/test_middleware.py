@@ -23,6 +23,7 @@ def get_test_client():
         after_render: Callable[[Request, HTMLResponse], Awaitable[None]] = None,
         username: str = None,
         password: str = None,
+        token: str = None,
     ) -> TestClient:
         def main_get(r):
             return HTMLResponse("<html><body>RAW</body></html>")
@@ -61,6 +62,7 @@ def get_test_client():
                 prerender_service_url="http://prerender.bar.com",
                 prerender_service_username=username,
                 prerender_service_password=password,
+                prerender_service_token=token,
                 whitelist=whitelist,
                 blacklist=blacklist,
                 before_render=before_render,
@@ -191,6 +193,20 @@ def test_basic_auth(get_test_client):
     assert request.called
     encoded_auth = b64encode(b"foo:bar").decode("latin-1")
     assert request.calls[0][0].headers["Authorization"] == f"Basic {encoded_auth}"
+
+
+@respx.mock
+def test_token(get_test_client):
+    request = respx.get(
+        f"http://prerender.bar.com/http://testserver/",
+        content="<html><body>PRERENDERED</body></html>",
+    )
+
+    test_client = get_test_client(token="foo")
+    test_client.request("GET", "/", headers={"user-agent": "googlebot"})
+
+    assert request.called
+    assert request.calls[0][0].headers["x-prerender-token"] == "foo"
 
 
 @respx.mock
