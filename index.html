@@ -483,7 +483,7 @@
 
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">before_render</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HTMLResponse</span><span class="p">]:</span>
-    <span class="n">cached_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prerender:</span><span class="si">{request.url.path}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">cached_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prerender:</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">cached_response</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">HTMLResponse</span><span class="p">(</span><span class="n">cached_response</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span>
@@ -494,7 +494,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cached</span><span class="p">:</span>
         <span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;prerender:</span><span class="si">{request.url.path}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">charset</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;prerender:</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">charset</span><span class="p">)</span>
         <span class="p">)</span>
 
 
