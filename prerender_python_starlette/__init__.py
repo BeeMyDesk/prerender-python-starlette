@@ -1,6 +1,6 @@
 """Starlette middleware for Prerender."""
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 from prerender_python_starlette.middleware import (  # noqa: F401
